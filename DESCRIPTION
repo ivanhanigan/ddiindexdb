@@ -1,0 +1,10 @@
+Package: ddiindexdb
+Type: Package
+Title: manipulate ddiindexdb from R
+Version: 1.0
+Date: 2013-06-06
+Author: ivanhanigan
+Maintainer: <ivan.hanigan@gmail.com>
+Depends: RJDBC
+Description: manipulate ddiindexdb from R
+License: GPL (>= 2)
