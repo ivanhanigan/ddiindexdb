@@ -1,30 +1,34 @@
+
 \name{connect2oracle}
 \alias{connect2oracle}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+connect to a oracle db
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+connect to a oracle db
 }
 \usage{
-connect2oracle(hostip = NA, db = NA, p = NA, driverlocation = "/lib/ojdbc6.jar")
+connect2oracle(hostip=NA, db=NA, p=NA, driverlocation='/lib/ojdbc6.jar')
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
+
   \item{hostip}{
-%%     ~~Describe \code{hostip} here~~
+IP address as string
 }
   \item{db}{
-%%     ~~Describe \code{db} here~~
+Database (Workspace) name 
 }
   \item{p}{
-%%     ~~Describe \code{p} here~~
+password 
 }
   \item{driverlocation}{
-%%     ~~Describe \code{driverlocation} here~~
+defaults to linux location.  not tested on windoze.
 }
+
 }
+
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
@@ -39,10 +43,15 @@ connect2oracle(hostip = NA, db = NA, p = NA, driverlocation = "/lib/ojdbc6.jar")
 %% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
+ivanhanigan
 }
 \note{
-%%  ~~further notes~~
+make sure you have JDK, if not install the SUN version
+http://blog.i-evaluation.com/2012/12/03/installing-java-sdk-and-jre-bin-files-on-my-ec2-instance/
+then get the JDBC driver from http://www.oracle.com/technetwork/database/enterprise-edition/jdbc-112010-090769.html
+put into /lib
+did install.packages('rJava') and then
+"R CMD javareconf" as root
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -51,32 +60,14 @@ connect2oracle(hostip = NA, db = NA, p = NA, driverlocation = "/lib/ojdbc6.jar")
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
+# example using the SWISH Extreme Weather Eventds DataBase (EWEDB).
+# NB only powerusers will know the password.
+ch <- connect2oracle(hostip = '115.146.93.225', db = 'DDIINDEXDB')
+stdydscr <- dbGetQuery(ch, "select * from stdydscr where IDNO = 'EWEDB'")
+t(stdydscr)
 
-## The function is currently defined as
-function (hostip = NA, db = NA, p = NA, driverlocation = "/lib/ojdbc6.jar") 
-{
-    require(RJDBC)
-    drv <- JDBC("oracle.jdbc.driver.OracleDriver", driverlocation)
-    if (is.na(hostip)) {
-        hostip = readline("enter hostip: ")
-    }
-    if (is.na(db)) {
-        db = readline("enter db: ")
-    }
-    if (is.na(p)) {
-        pwd = readline(paste("enter password for ", db, ": ", 
-            sep = ""))
-    }
-    else {
-        pwd <- p
-    }
-    ch <- dbConnect(drv, paste("jdbc:oracle:thin:@", hostip, 
-        ":1521", sep = ""), db, pwd)
-    return(ch)
-  }
+
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
